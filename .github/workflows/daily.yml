@@ -1,1 +1,37 @@
 
+name: Daily Contribution Bot
+
+on:
+  # Run once when you first push to main branch (for testing)
+  push:
+    branches:
+      - main
+
+  # Allow manual trigger anytime
+  workflow_dispatch:
+
+  # Scheduled run every day
+  schedule:
+    - cron: "0 3 * * *"   # Runs daily at 3 AM UTC = 8:30 AM IST
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run bot
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python bot.py
