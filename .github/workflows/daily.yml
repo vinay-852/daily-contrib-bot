@@ -1,18 +1,17 @@
-
 name: Daily Contribution Bot
 
 on:
-  # Run once when you first push to main branch (for testing)
+  # Run immediately on first push for testing
   push:
     branches:
       - main
 
-  # Allow manual trigger anytime
+  # Manual trigger option
   workflow_dispatch:
 
-  # Scheduled run every day
+  # Scheduled daily at 8:30 AM IST (3:00 AM UTC)
   schedule:
-    - cron: "0 3 * * *"   # Runs daily at 3 AM UTC = 8:30 AM IST
+    - cron: "0 3 * * *"
 
 jobs:
   run-bot:
